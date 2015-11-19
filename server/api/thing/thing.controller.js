@@ -31,9 +31,19 @@ exports.show = function(req, res) {
 
 // Creates a new thing in the DB.
 exports.create = function(req, res) {
-  Thing.create(req.body, function(err, thing) {
-    if(err) { return handleError(res, err); }
-    return res.status(201).json(thing);
+  console.log(req.body.name);
+  Thing.findOne({name: req.body.name}, function(err, thing){
+    if (!!thing) {
+      res.status(201).json(thing);
+    }
+    else {
+      Thing.create(req.body, function (err, thing) {
+        if (err) {
+          return handleError(res, err);
+        }
+        return res.status(201).json(thing);
+      });
+    }
   });
 };
 

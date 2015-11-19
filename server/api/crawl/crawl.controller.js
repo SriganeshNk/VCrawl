@@ -31,6 +31,7 @@ exports.show = function(req, res) {
 
 // Creates a new thing in the DB.
 exports.crawl = function(req, res) {
+  console.log("SRIGANESH:" + req.body.name);
   request(req.body.name, function(err, response, body){
     if(!err && response.statusCode == 200){
       // Now call the distCrawler get the output and pass it like below

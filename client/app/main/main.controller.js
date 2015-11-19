@@ -41,7 +41,9 @@ angular.module('vcrawlerApp')
         .then(function(success) {
           $scope.fetching = false;
           $scope.badRequest = false;
-          $scope.crawlResult = success['output'];
+          $scope.crawlResult = success.data.output;
+          console.log($scope.crawlResult);
+          console.log(success);
         }, function(error) {
           $scope.fetching = false;
           $scope.badRequest = true;
