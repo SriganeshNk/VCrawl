@@ -1,0 +1,97 @@
+
+<div id="wrapper">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">V Crawl</a>
+    </div>
+    <!-- Top Menu Items -->
+    <!-- This is where the Search Should be placed -->
+    <!-- Done -->
+    <ul class="nav top-nav">
+      <li>
+        <div class="col-lg-8" style="padding-top: 7px;">
+          <form role="form" ng-submit="startCrawl(domain)">
+            <input class="form-control" placeholder="Enter the Domain to be Crawled" ng-model="domain">
+          </form>
+        </div>
+      </li>
+    </ul>
+    <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav side-nav">
+        <!-- This is where the previously searched websites get displayed -->
+        <li class="active">
+          <a href="#"><strong> Frequently Crawled Domains </strong></a>
+        </li>
+        <li ng-repeat="item in prevCrawled track by $index">
+          <a href="#"><strong>{{item}}</strong></a>
+        </li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </nav>
+
+  <div id="page-wrapper">
+
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 class="page-header">
+            Crawler Dashboard <small>Vulnerabilities Overview</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li class="active">
+              <i class="fa fa-dashboard"></i> Dashboard
+            </li>
+          </ol>
+        </div>
+      </div>
+      <!-- /.row -->
+
+      <div class="row">
+        <div class="col-lg-12">
+          <img src="../../assets/images/rubix.gif" ng-show="fetching">
+          <img src="../../assets/images/psychobox.png" ng-show="badRequest">
+          <table st-table="crawlResult" class="table table-stripped" ng-show="!fetching && !badRequest">
+            <thead>
+            <tr>
+              <!-- Need to insert popup to show what these fields signify -->
+              <th> Number </th>
+              <th> URL </th>
+              <th> CSP </th>
+              <th> HTTP-Strict </th>
+              <th> XSS </th>
+              <th> XFrame </th>
+              <th> CSRF-Nonces </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="crOut in crawlResult track by $index">
+              <!-- need to insert a pop-up to show whats wrong-- we'll do that later -->
+              <td>{{$index}}</td>
+              <td>{{crOut.url}}</td>
+              <td>{{crOut.csp}}</td>
+              <td>{{crOut.https}}</td>
+              <td>{{crOut.xss}}</td>
+              <td>{{crOut.xframe}}</td>
+              <td>{{crOut.csrf}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
