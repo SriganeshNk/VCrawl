@@ -11,12 +11,24 @@
     <!-- This is where the Search Should be placed -->
     <!-- Done -->
     <ul class="nav top-nav">
-      <li>
-        <div class="col-lg-8" style="padding-top: 7px;">
-          <form role="form" ng-submit="startCrawl(domain)">
-            <input class="form-control" placeholder="Enter the Domain to be Crawled" ng-model="domain">
-          </form>
-        </div>
+      <li style="padding-top: 7px;">
+        <form class="form-inline" role="form" ng-submit="startCrawl(domain, pages)">
+          <div class="row">
+            <div class="form-group col-lg-6">
+              <input class="form-control" style="width:100%!important;" placeholder="Enter the Domain to be Crawled" ng-model="domain">
+            </div>
+            <div class="form-group col-xs-2">
+              <input class="form-control" placeholder="# of Pages" ng-model="pages">
+            </div>
+            <div class="radio">
+              <label style="color:white"><input type="radio" ng-model="vhttp" value="http"> HTTP </label>
+            </div>
+            <div class="radio">
+              <label style="color: white"><input type="radio" ng-model="vhttp" value="https"> HTTPS </label>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-left:8px">Crawl</button>
+            </div>
+        </form>
       </li>
     </ul>
     <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
@@ -27,7 +39,7 @@
           <a href="#"><strong> Frequently Crawled Domains </strong></a>
         </li>
         <li ng-repeat="item in prevCrawled track by $index">
-          <a href="#"><strong>{{item.name}}</strong></a>
+          <a href="#" ng-click="startCrawl(item.name, item.pages)"><strong>{{item.name}} -- {{item.pages}}</strong></a>
         </li>
       </ul>
     </div>
@@ -61,13 +73,13 @@
             <thead>
             <tr>
               <!-- Need to insert popup to show what these fields signify -->
-              <th> Number </th>
-              <th> URL </th>
-              <th> CSP </th>
-              <th> HTTP-Strict </th>
-              <th> XSS </th>
-              <th> XFrame </th>
-              <th> CSRF-Nonces </th>
+              <th align="center"> Number </th>
+              <th align="center"> URL </th>
+              <th align="center"> CSP </th>
+              <th align="center"> HTTP-Strict </th>
+              <th align="center"> XSS </th>
+              <th align="center"> XFrame </th>
+              <th align="center"> CSRF-Nonces </th>
             </tr>
             </thead>
             <tbody>
@@ -75,11 +87,11 @@
               <!-- need to insert a pop-up to show whats wrong-- we'll do that later -->
               <td>{{$index+1}}</td>
               <td>{{crOut.url}}</td>
-              <td>{{crOut.csp}}</td>
-              <td>{{crOut.https}}</td>
-              <td>{{crOut.xss}}</td>
-              <td>{{crOut.xframe}}</td>
-              <td>{{crOut.csrf}}</td>
+              <td>{{crOut.data.csp}}</td>
+              <td>{{crOut.data.https}}</td>
+              <td>{{crOut.data.xss}}</td>
+              <td>{{crOut.data.xframe}}</td>
+              <td>{{crOut.data.csrf}}</td>
             </tr>
             </tbody>
           </table>

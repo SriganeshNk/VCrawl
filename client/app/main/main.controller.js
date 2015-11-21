@@ -5,6 +5,8 @@ angular.module('vcrawlerApp')
     $scope.prevCrawled = [];
     $scope.crawlResult = [];
     $scope.domain = '';
+    $scope.pages = null ;
+    $scope.vhttp = 'http';
     $scope.badRequest = false;
     $scope.fetching = false;
     // Here get the previously crawled domains... from the database
@@ -18,7 +20,7 @@ angular.module('vcrawlerApp')
       if($scope.domain === '') {
         return;
       }
-      $http.post('/api/things', { name: $scope.domain });
+      $http.post('/api/things', { name: $scope.domain, pages: $scope.pages, protocol: $scope.vhttp});
       $scope.domain = '';
     };
 
@@ -33,15 +35,18 @@ angular.module('vcrawlerApp')
     });
 
     //Start crawling the domain
-    $scope.startCrawl = function(domain) {
+    $scope.startCrawl = function(domain, pages) {
       $scope.fetching = true;
+      console.log($scope.vhttp);
+      domain = $scope.vhttp + "://" + domain;
       console.log("1" + domain);
       $scope.addThing();
-      $http.post('/api/crawl/', {name: domain})
+      $http.post('/api/crawl/', {name: domain, pages: pages})
         .then(function(success) {
           $scope.fetching = false;
           $scope.badRequest = false;
           $scope.crawlResult = success.data.output;
+          console.log(success.data.output);
           console.log($scope.crawlResult);
           console.log(success);
         }, function(error) {
