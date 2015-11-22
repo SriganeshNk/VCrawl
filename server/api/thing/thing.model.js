@@ -6,7 +6,8 @@ var mongoose = require('mongoose'),
 var ThingSchema = new Schema({
   name: String,
   pages: Number,
-  protocol: String
+  protocol: String,
+  response: mongoose.Schema.Types.Mixed
 });
 
 module.exports = mongoose.model('Thing', ThingSchema);

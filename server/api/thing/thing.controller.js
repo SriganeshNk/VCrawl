@@ -22,7 +22,7 @@ exports.index = function(req, res) {
 
 // Get a single thing
 exports.show = function(req, res) {
-  Thing.findById(req.params.id, function (err, thing) {
+  Thing.findOne({name:req.body.name, pages:req.body.pages}, function (err, thing) {
     if(err) { return handleError(res, err); }
     if(!thing) { return res.status(404).send('Not Found'); }
     return res.json(thing);
@@ -32,7 +32,7 @@ exports.show = function(req, res) {
 // Creates a new thing in the DB.
 exports.create = function(req, res) {
   console.log(req.body.name);
-  Thing.findOne({name: req.body.name}, function(err, thing){
+  Thing.findOne({name: req.body.name, pages: req.body.pages}, function(err, thing){
     if (!!thing) {
       res.status(201).json(thing);
     }
@@ -49,8 +49,7 @@ exports.create = function(req, res) {
 
 // Updates an existing thing in the DB.
 exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Thing.findById(req.params.id, function (err, thing) {
+  Thing.findOne({name:req.body.name, pages:req.body.pages}, function (err, thing) {
     if (err) { return handleError(res, err); }
     if(!thing) { return res.status(404).send('Not Found'); }
     var updated = _.merge(thing, req.body);

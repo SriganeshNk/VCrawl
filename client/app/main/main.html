@@ -39,16 +39,16 @@
           <a href="#"><strong> Frequently Crawled Domains </strong></a>
         </li>
         <li ng-repeat="item in prevCrawled track by $index">
-          <a href="#" ng-click="startCrawl(item.name, item.pages)"><strong>{{item.name}} -- {{item.pages}}</strong></a>
+          <a href="#" ng-click="showResult(item)"><strong>{{item.name}} -- {{item.pages}}</strong></a>
         </li>
       </ul>
     </div>
     <!-- /.navbar-collapse -->
   </nav>
 
-  <div id="page-wrapper">
+  <div id="page-wrapper" style="width:100%; display: inline-block">
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="display: inline-block">
 
       <!-- Page Heading -->
       <div class="row">
@@ -64,37 +64,68 @@
         </div>
       </div>
       <!-- /.row -->
-
-      <div class="row">
-        <div class="col-lg-12" style="text-align: center">
-          <img src="../../assets/images/rubix.gif" ng-show="fetching">
-          <img src="../../assets/images/psychobox.png" ng-show="badRequest">
-          <table st-table="crawlResult" class="table table-stripped" ng-show="!fetching && !badRequest">
-            <thead>
-            <tr>
-              <!-- Need to insert popup to show what these fields signify -->
-              <th align="center"> Number </th>
-              <th align="center"> URL </th>
-              <th align="center"> CSP </th>
-              <th align="center"> HTTP-Strict </th>
-              <th align="center"> XSS </th>
-              <th align="center"> XFrame </th>
-              <th align="center"> CSRF-Nonces </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="crOut in crawlResult track by $index">
-              <!-- need to insert a pop-up to show whats wrong-- we'll do that later -->
-              <td>{{$index+1}}</td>
-              <td>{{crOut.url}}</td>
-              <td>{{crOut.data.csp}}</td>
-              <td>{{crOut.data.https}}</td>
-              <td>{{crOut.data.xss}}</td>
-              <td>{{crOut.data.xframe}}</td>
-              <td>{{crOut.data.csrf}}</td>
-            </tr>
-            </tbody>
-          </table>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"> Crawled Response</h3>
+        </div>
+        <div class="panel-body">
+          <div class="table-responsive">
+            <img src="../../assets/images/rubix.gif" ng-show="fetching">
+            <img src="../../assets/images/psychobox.png" ng-show="badRequest">
+            <table st-table="crawlResult" class="table table-stripped" ng-show="!fetching && !badRequest">
+              <thead>
+              <tr>
+                <!-- Need to insert popup to show what these fields signify -->
+                <th style="text-align: center"> Number </th>
+                <th style="text-align: center"> URL </th>
+                <th style="text-align: center"> CSP </th>
+                <th style="text-align: center"> HTTP-Strict </th>
+                <th style="text-align: center"> XSS </th>
+                <th style="text-align: center"> XFrame </th>
+                <th style="text-align: center"> CSRF-Nonces </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="crOut in crawlResult track by $index">
+                <!-- need to insert a pop-up to show whats wrong-- we'll do that later -->
+                <td style="text-align: center">{{$index+1}}</td>
+                <td style="text-align: center">
+                  <a href="crOut.url">{{crOut.url}}</a>
+                </td>
+                <td style="text-align: center">
+                  <div uib-tooltip="{{crOut.data.csp}}" tooltip-placement="top">
+                    <i class="fa fa-check" ng-if="crOut.data.csp.implemented" style="color:seagreen"></i>
+                    <i class="fa fa-exclamation-circle" ng-if="!crOut.data.csp.implemented" style="color:crimson"></i>
+                  </div>
+                </td>
+                <td style="text-align: center">
+                  <div uib-tooltip="{{crOut.data.hsts}}" tooltip-placement="top" >
+                    <i class="fa fa-check" ng-if="crOut.data.hsts.implemented" style="color:seagreen"></i>
+                    <i class="fa fa-exclamation-circle" ng-if="!crOut.data.hsts.implemented" style="color: crimson"></i>
+                  </div>
+                </td>
+                <td style="text-align: center">
+                  <div tooltip-placement="top" uib-tooltip="{{crOut.data.xss}}">
+                    <i class="fa fa-check" ng-if="crOut.data.xss.implemented" style="color:seagreen"></i>
+                    <i class="fa fa-exclamation-circle" ng-if="!crOut.data.xss.implemented" style="color: crimson"></i>
+                  </div>
+                </td>
+                <td style="text-align: center">
+                  <div tooltip-placement="top" uib-tooltip="{{crOut.data.xframe}}">
+                    <i class="fa fa-check" ng-if="crOut.data.xframe.implemented" style="color:seagreen"></i>
+                    <i class="fa fa-exclamation-circle" ng-if="!crOut.data.xframe.implemented" style="color: crimson"></i>
+                  </div>
+                </td>
+                <td style="text-align: center">
+                  <div tooltip-placement="top" uib-tooltip="{{crOut.data.csrf}}">
+                    <i class="fa fa-check" ng-if="crOut.data.csrf" style="color:seagreen"></i>
+                    <i class="fa fa-exclamation-circle" ng-if="!crOut.data.csrf" style="color: crimson"></i>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       <!-- /.row -->

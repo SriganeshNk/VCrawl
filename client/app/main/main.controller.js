@@ -20,8 +20,14 @@ angular.module('vcrawlerApp')
       if($scope.domain === '') {
         return;
       }
-      $http.post('/api/things', { name: $scope.domain, pages: $scope.pages, protocol: $scope.vhttp});
+      $http.post('/api/things', { name: $scope.domain, pages: $scope.pages, protocol: $scope.vhttp, response: null});
+    };
+
+    $scope.updateThing = function(data){
+      $http.post('/api/things/update',{name:$scope.domain, pages: $scope.pages, protocol: $scope.vhttp, response: data});
       $scope.domain = '';
+      $scope.pages = null;
+      $scope.vhttp = "http";
     };
 
     // Delete entries from the database
@@ -46,14 +52,19 @@ angular.module('vcrawlerApp')
           $scope.fetching = false;
           $scope.badRequest = false;
           $scope.crawlResult = success.data.output;
-          console.log(success.data.output);
-          console.log($scope.crawlResult);
+          $scope.updateThing(success.data);
           console.log(success);
         }, function(error) {
           $scope.fetching = false;
           $scope.badRequest = true;
         }
       );
+    };
+
+    $scope.showResult = function(item) {
+      console.log("ShowResult called:" + item);
+      $scope.crawlResult = [];
+      $scope.crawlResult = item.response.output;
     }
 
   });

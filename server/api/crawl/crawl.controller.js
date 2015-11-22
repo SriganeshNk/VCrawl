@@ -10,7 +10,8 @@
 'use strict';
 
 var _ = require('lodash');
-var distCrawler = 'http://localhost:5000/api/crawls';
+//var distCrawler = 'http://130.245.130.190:5000/crawls';
+var distCrawler = "http://localhost:5000/api/crawls";
 var request = require('request');
 
 // Get list of things
@@ -22,11 +23,14 @@ exports.index = function(req, res) {
 exports.crawl = function(req, res) {
   console.log("SRIGANESH: " + req.body.name + req.body.pages);
   request(req.body.name, function(err, response, body){
-    if(!err && response.statusCode == 200){
+    console.log("RESPONSE:", response.statusCode);
+    console.log(distCrawler+req.body.pages+"/"+req.body.name);
+    if(!err && !!response && response.statusCode == 200) {
       console.log("Input is correct");
       // Now call the distCrawler get the output
-      request.post({url: distCrawler, form:{url:req.body.name, pages: req.body.pages}}, function(error, resp, result) {
-        if(!error && resp.statusCode == 200) {
+      request.post({url: distCrawler, form:{url:req.body.name, pages: req.body.pages}},
+      /*request(distCrawler+req.body.pages+"/"+req.body.name+"/",*/ function (error, resp, result) {
+        if(!error && !!resp && resp.statusCode == 200) {
           res.status(200).send(result);
         }
         else{
