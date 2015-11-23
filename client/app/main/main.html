@@ -65,12 +65,30 @@
         </div>
       </div>
       <!-- /.row -->
-      <div class="panel panel-primary" ng-show="charts">
+      <div class="panel panel-primary" style="max-width:70%" ng-show="charts">
         <div class="panel-heading">
           <h3><i class="fa fa-bar-chart-o fa-fw"></i>Vulnerability overview</h3>
         </div>
         <div class="panel-body">
           <canvas id="bar" class="chart chart-bar" chart-data="chartData" chart-labels="chartLabels">
+          </canvas>
+        </div>
+      </div>
+      <div class="panel panel-primary" style="max-width:70%" ng-show="charts">
+        <div class="panel-heading">
+          <h3><i class="fa fa-bar-chart-o fa-fw"></i>CSP Vulnerability overview</h3>
+        </div>
+        <div class="panel-body">
+          <canvas id="bar1" class="chart chart-bar" chart-data="chartCSPData" chart-labels="chartCSPLabels">
+          </canvas>
+        </div>
+      </div>
+      <div class="panel panel-primary" style="max-width:70%" ng-show="charts">
+        <div class="panel-heading">
+          <h3><i class="fa fa-bar-chart-o fa-fw"></i>HSTS Vulnerability overview</h3>
+        </div>
+        <div class="panel-body">
+          <canvas id="bar2" class="chart chart-bar" chart-data="chartHSTSData" chart-labels="chartHSTSLabels">
           </canvas>
         </div>
       </div>

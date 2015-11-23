@@ -43,6 +43,7 @@ angular.module('vcrawlerApp')
     //Start crawling the domain
     $scope.startCrawl = function(domain, pages) {
       $scope.fetching = true;
+      $scope.charts = false;
       console.log($scope.vhttp);
       domain = $scope.vhttp + "://" + domain;
       console.log("1" + domain);
@@ -65,18 +66,24 @@ angular.module('vcrawlerApp')
 
     $scope.showResult = function(item) {
       console.log("ShowResult called:" + item);
+      $scope.charts = false;
       $scope.crawlResult = [];
       $scope.crawlResult = item.response.output;
       $scope.chartReady = true;
+      $scope.aggregate();
     };
 
     $scope.chartReady = false;
     $scope.charts = false;
-    $scope.chartData = null;
+    $scope.chartData = [[0, 0, 0, 0, 0]];
     $scope.chartSeries = ['Vulnerability'];
     $scope.chartLabels = ["CSP", "CSRF", "HSTS", "XFRAME", "XSS"];
     $scope.chartCSPLabels = ["base-uri", "child-src", "connect-src", "default-src", "font-src", "form-action", "frame-ancestors", "frame-src", "img-src", "media-src", "object-src", "plugin-types", "report-uri", "script-src", "style-src", "upgrade-insecure-requests"];
-    $scope.chartCSPData = null;
+    $scope.chartCSPSeries = ['CSP Vulnerability'];
+    $scope.chartCSPData = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
+    $scope.chartHSTSData = [[0, 0]];
+    $scope.chartHSTSLabels = ["includeSubDomains", "preload"];
+    $scope.chartHSTSSeries = ['HSTS Vulnerability'];
 
     $scope.displayGraph = function(){
       if(!!$scope.chartSeries && !!$scope.chartData && !!$scope.chartLabels){
@@ -85,19 +92,29 @@ angular.module('vcrawlerApp')
     };
 
     $scope.aggregate = function(){
-      $scope.chartData = [0, 0, 0, 0, 0];
       $scope.crawlResult.forEach(function(item){
-        $scope.chartData[0] = item.data.csp.implemented ? vulCount[0]+1 : vulCount[0];
-        $scope.chartData[1] = item.data.csrf.implemented ? vulCount[1]+1 : vulCount[1];
-        $scope.chartData[2] = item.data.hsts.implemented ? vulCount[2]+1 : vulCount[2];
-        $scope.chartData[3] = item.data.xframe.implemented ? vulCount[3]+1 : vulCount[3];
-        $scope.chartData[4] = item.data.xss.implemented ? vulCount[4]+1 : vulCount[4];
+        $scope.chartData[0][0] = item.data.csp.implemented ? $scope.chartData[0][0]+1 : $scope.chartData[0][0];
+        $scope.chartData[0][1] = item.data.csrf.implemented ? $scope.chartData[0][1]+1 : $scope.chartData[0][1];
+        $scope.chartData[0][2] = item.data.hsts.implemented ? $scope.chartData[0][2]+1 : $scope.chartData[0][2];
+        $scope.chartData[0][3] = item.data.xframe.implemented ? $scope.chartData[0][3]+1 : $scope.chartData[0][3];
+        $scope.chartData[0][4] = item.data.xss.implemented ? $scope.chartData[0][4]+1 : $scope.chartData[0][4];
+        $scope.getCSPAggregate(item);
+        $scope.getHSTSAggregate(item);
       });
-      $scope.getCSPAggregate();
     };
 
-    $scope.getCSPAggregate = function() {
-
+    $scope.getCSPAggregate = function(item) {
+      if(item.data.csp.implemented) {
+        for(var i=0; i < $scope.chartCSPLabels.length; i++) {
+          $scope.chartCSPData[0][i] = item.data.csp[$scope.chartCSPLabels[i]] ? $scope.chartCSPData[0][i]+1: $scope.chartCSPData[0][i];
+        }
+      }
     };
 
+    $scope.getHSTSAggregate = function(item){
+      if(item.data.hsts.implemented) {
+        $scope.chartHSTSData[0][0] = item.data.hsts.includeSubDomains ? $scope.chartHSTSData[0][0]+1 : $scope.chartHSTSData[0][0];
+        $scope.chartHSTSData[0][1] = item.data.hsts.preload ? $scope.chartHSTSData[0][1]+1 : $scope.chartHSTSData[0][1];
+      }
+    };
   });
