@@ -92,6 +92,9 @@ angular.module('vcrawlerApp')
     };
 
     $scope.aggregate = function(){
+      $scope.chartData = [[0, 0, 0, 0, 0]];
+      $scope.chartCSPData = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
+      $scope.chartHSTSData = [[0, 0]];
       $scope.crawlResult.forEach(function(item){
         $scope.chartData[0][0] = item.data.csp.implemented ? $scope.chartData[0][0]+1 : $scope.chartData[0][0];
         $scope.chartData[0][1] = item.data.csrf.implemented ? $scope.chartData[0][1]+1 : $scope.chartData[0][1];

@@ -115,7 +115,8 @@
               </tr>
               </thead>
               <tbody>
-              <tr ng-repeat="crOut in crawlResult track by $index">
+              <tr ng-repeat="crOut in crawlResult track by $index" ng-class="crOut.data.exception ? 'danger': ''">
+                <div uib-tooltip="Invalid Handshake" tooltip-placement="top">
                 <!-- need to insert a pop-up to show whats wrong-- we'll do that later -->
                 <td style="text-align: center">{{$index+1}}</td>
                 <td style="text-align: center">
@@ -123,34 +124,35 @@
                 </td>
                 <td style="text-align: center">
                   <div uib-tooltip="{{crOut.data.csp}}" tooltip-placement="top">
-                    <i class="fa fa-check" ng-if="crOut.data.csp.implemented" style="color:seagreen"></i>
-                    <i class="fa fa-exclamation-circle" ng-if="!crOut.data.csp.implemented" style="color:crimson"></i>
+                    <i class="fa fa-check fa-2x" ng-if="crOut.data.csp.implemented" style="color:seagreen"></i>
+                    <i class="fa fa-exclamation-circle fa-2x" ng-if="!crOut.data.csp.implemented" style="color:crimson"></i>
                   </div>
                 </td>
                 <td style="text-align: center">
                   <div uib-tooltip="{{crOut.data.hsts}}" tooltip-placement="top" >
-                    <i class="fa fa-check" ng-if="crOut.data.hsts.implemented" style="color:seagreen"></i>
-                    <i class="fa fa-exclamation-circle" ng-if="!crOut.data.hsts.implemented" style="color: crimson"></i>
+                    <i class="fa fa-check fa-2x" ng-if="crOut.data.hsts.implemented" style="color:seagreen"></i>
+                    <i class="fa fa-exclamation-circle fa-2x" ng-if="!crOut.data.hsts.implemented" style="color: crimson"></i>
                   </div>
                 </td>
                 <td style="text-align: center">
                   <div tooltip-placement="top" uib-tooltip="{{crOut.data.xss}}">
-                    <i class="fa fa-check" ng-if="crOut.data.xss.implemented" style="color:seagreen"></i>
-                    <i class="fa fa-exclamation-circle" ng-if="!crOut.data.xss.implemented" style="color: crimson"></i>
+                    <i class="fa fa-check fa-2x" ng-if="crOut.data.xss.implemented" style="color:seagreen"></i>
+                    <i class="fa fa-exclamation-circle fa-2x" ng-if="!crOut.data.xss.implemented" style="color: crimson"></i>
                   </div>
                 </td>
                 <td style="text-align: center">
                   <div tooltip-placement="top" uib-tooltip="{{crOut.data.xframe}}">
-                    <i class="fa fa-check" ng-if="crOut.data.xframe.implemented" style="color:seagreen"></i>
-                    <i class="fa fa-exclamation-circle" ng-if="!crOut.data.xframe.implemented" style="color: crimson"></i>
+                    <i class="fa fa-check fa-2x" ng-if="crOut.data.xframe.implemented" style="color:seagreen"></i>
+                    <i class="fa fa-exclamation-circle fa-2x" ng-if="!crOut.data.xframe.implemented" style="color: crimson"></i>
                   </div>
                 </td>
                 <td style="text-align: center">
                   <div tooltip-placement="top" uib-tooltip="{{crOut.data.csrf}}">
-                    <i class="fa fa-check" ng-if="crOut.data.csrf" style="color:seagreen"></i>
-                    <i class="fa fa-exclamation-circle" ng-if="!crOut.data.csrf" style="color: crimson"></i>
+                    <i class="fa fa-check fa-2x" ng-if="crOut.data.csrf.implemented" style="color:seagreen"></i>
+                    <i class="fa fa-exclamation-circle fa-2x" ng-if="!crOut.data.csrf.implemented" style="color: crimson"></i>
                   </div>
                 </td>
+                </div>
               </tr>
               </tbody>
             </table>
