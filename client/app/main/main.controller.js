@@ -53,7 +53,9 @@ angular.module('vcrawlerApp')
           $scope.badRequest = false;
           $scope.crawlResult = success.data.output;
           $scope.updateThing(success.data);
-          console.log(success);
+          $scope.chartReady = true;
+          $scope.aggregate();
+          //console.log(success);
         }, function(error) {
           $scope.fetching = false;
           $scope.badRequest = true;
@@ -65,6 +67,37 @@ angular.module('vcrawlerApp')
       console.log("ShowResult called:" + item);
       $scope.crawlResult = [];
       $scope.crawlResult = item.response.output;
-    }
+      $scope.chartReady = true;
+    };
+
+    $scope.chartReady = false;
+    $scope.charts = false;
+    $scope.chartData = null;
+    $scope.chartSeries = ['Vulnerability'];
+    $scope.chartLabels = ["CSP", "CSRF", "HSTS", "XFRAME", "XSS"];
+    $scope.chartCSPLabels = ["base-uri", "child-src", "connect-src", "default-src", "font-src", "form-action", "frame-ancestors", "frame-src", "img-src", "media-src", "object-src", "plugin-types", "report-uri", "script-src", "style-src", "upgrade-insecure-requests"];
+    $scope.chartCSPData = null;
+
+    $scope.displayGraph = function(){
+      if(!!$scope.chartSeries && !!$scope.chartData && !!$scope.chartLabels){
+        $scope.charts = !$scope.charts;
+      }
+    };
+
+    $scope.aggregate = function(){
+      $scope.chartData = [0, 0, 0, 0, 0];
+      $scope.crawlResult.forEach(function(item){
+        $scope.chartData[0] = item.data.csp.implemented ? vulCount[0]+1 : vulCount[0];
+        $scope.chartData[1] = item.data.csrf.implemented ? vulCount[1]+1 : vulCount[1];
+        $scope.chartData[2] = item.data.hsts.implemented ? vulCount[2]+1 : vulCount[2];
+        $scope.chartData[3] = item.data.xframe.implemented ? vulCount[3]+1 : vulCount[3];
+        $scope.chartData[4] = item.data.xss.implemented ? vulCount[4]+1 : vulCount[4];
+      });
+      $scope.getCSPAggregate();
+    };
+
+    $scope.getCSPAggregate = function() {
+
+    };
 
   });

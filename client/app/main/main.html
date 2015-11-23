@@ -55,6 +55,7 @@
         <div class="col-lg-12">
           <h1 class="page-header">
             Crawler Dashboard <small>Vulnerabilities Overview</small>
+            <input type="submit" value="Stats" class="btn btn-primary" style="margin-left:8px" ng-click="displayGraph()" ng-disabled="!chartReady">
           </h1>
           <ol class="breadcrumb">
             <li class="active">
@@ -64,6 +65,16 @@
         </div>
       </div>
       <!-- /.row -->
+      <div class="panel panel-primary" ng-show="charts">
+        <div class="panel-heading">
+          <h3><i class="fa fa-bar-chart-o fa-fw"></i>Vulnerability overview</h3>
+        </div>
+        <div class="panel-body">
+          <canvas id="bar" class="chart chart-bar" chart-data="chartData" chart-labels="chartLabels">
+          </canvas>
+        </div>
+      </div>
+
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title"> Crawled Response</h3>

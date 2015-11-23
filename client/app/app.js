@@ -7,7 +7,8 @@ angular.module('vcrawlerApp', [
   'ngRoute',
   'btford.socket-io',
   'ui.bootstrap',
-  'smart-table'
+  'smart-table',
+  'chart.js'
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
