@@ -35,7 +35,7 @@ angular.module('vcrawlerApp')
       $http.delete('/api/things/' + thing._id);
     };
 
-    // Don't know why this is there!
+    // While the application exits, socket needs to be closed to the database
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('thing');
     });

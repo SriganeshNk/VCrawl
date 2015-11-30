@@ -123,13 +123,13 @@
                   <a href="crOut.url">{{crOut.url}}</a>
                 </td>
                 <td style="text-align: center">
-                  <div uib-tooltip="{{crOut.data.csp}}" tooltip-placement="top">
+                  <div uib-tooltip="{{crOut.data.csp}}" tooltip-placement="top" tooltip-append-to-body="true">
                     <i class="fa fa-check fa-2x" ng-if="crOut.data.csp.implemented" style="color:seagreen"></i>
                     <i class="fa fa-exclamation-circle fa-2x" ng-if="!crOut.data.csp.implemented" style="color:crimson"></i>
                   </div>
                 </td>
                 <td style="text-align: center">
-                  <div uib-tooltip="{{crOut.data.hsts}}" tooltip-placement="top" >
+                  <div uib-tooltip="{{crOut.data.hsts}}" tooltip-placement="top" tooltip-append-to-body="true" >
                     <i class="fa fa-check fa-2x" ng-if="crOut.data.hsts.implemented" style="color:seagreen"></i>
                     <i class="fa fa-exclamation-circle fa-2x" ng-if="!crOut.data.hsts.implemented" style="color: crimson"></i>
                   </div>

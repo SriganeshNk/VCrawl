@@ -10,8 +10,8 @@
 'use strict';
 
 var _ = require('lodash');
-var distCrawler = 'http://130.245.130.190:5000/crawls';
-//var distCrawler = "http://localhost:5000/api/crawls";
+//var distCrawler = 'http://130.245.130.190:5000/mrcrawls';
+var distCrawler = "http://localhost:5000/api/crawls";
 var request = require('request');
 
 // Get list of things
